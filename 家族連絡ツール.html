@@ -4,37 +4,38 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="stylesheet.css">
 <title>家族連絡ツール</title>
-</head>
 <style>
 body {
-    font-size:40px;
-    font-family:serif;
+    font-size: 40px;
+    font-family: serif;
 }
 .texts {
-    border:#000000 2px double
+    border: #000000 2px double;
 }
 select {
-    height:42px;
-    font-size:40px;
+    height: 42px;
+    font-size: 40px;
 }
 textarea {
-    width:400px;
-    height:120px;
+    width: 400px;
+    height: 120px;
 }
 button {
-    width:45px;
-    height:35px;
+    width: 45px;
+    height: 35px;
 }
 h1 {
-    margin-bottom:25px;
+    margin-bottom: 25px;
 }
 .a {
-    border-bottom:solid 1px #9eedff;
+    border-bottom: solid 1px #9eedff;
 }
 </style>
+</head>
 <body>
-<script src="CHAT.js"></script>
+
 <h1>家族連絡ツール</h1>
+
 <p>あき
 <select name="example" id="se1">
 <option>起床中</option>
@@ -44,6 +45,7 @@ h1 {
 <option>外出中</option>
 </select>
 </p>
+
 <p>おじ
 <select name="example" id="se2">
 <option>起床中</option>
@@ -53,6 +55,7 @@ h1 {
 <option>外出中</option>
 </select>
 </p>
+
 <p>そら
 <select name="example" id="se3">
 <option>起床中</option>
@@ -62,6 +65,7 @@ h1 {
 <option>外出中</option>
 </select>
 </p>
+
 <p>ふう
 <select name="example" id="se4">
 <option>起床中</option>
@@ -71,6 +75,7 @@ h1 {
 <option>外出中</option>
 </select>
 </p>
+
 <p>はる
 <select name="example" id="se5">
 <option>起床中</option>
@@ -80,10 +85,62 @@ h1 {
 <option>外出中</option>
 </select>
 </p>
+
 <p id="a">連絡欄</p>
 <input type="text" id="name" placeholder="名前:"><br>
 <textarea cols="30" rows="5" id="comment"></textarea><br>
 <button onclick="SAVE()">送信</button><br>
-<p id="texts"></p>
+<p id="texts" class="texts"></p>
+
+<script>
+function SAVE() {
+    const sel1 = document.getElementById("se1");
+    const sel2 = document.getElementById("se2");
+    const sel3 = document.getElementById("se3");
+    const sel4 = document.getElementById("se4");
+    const sel5 = document.getElementById("se5");
+
+    const name = document.getElementById("name").value;
+    const comment = document.getElementById("comment").value;
+
+    // 選択状態と入力値を保存
+    localStorage.setItem("sel1", sel1.value);
+    localStorage.setItem("sel2", sel2.value);
+    localStorage.setItem("sel3", sel3.value);
+    localStorage.setItem("sel4", sel4.value);
+    localStorage.setItem("sel5", sel5.value);
+    localStorage.setItem("name", name);
+    localStorage.setItem("comment", comment);
+
+    // 表示用テキストを作成して表示
+    const display = `[${name}] ${comment}\n`;
+    document.getElementById("texts").innerText = display;
+    localStorage.setItem("texts", display);
+}
+
+// ページ読み込み時に保存されたデータを復元
+window.addEventListener("DOMContentLoaded", () => {
+    const sel1 = document.getElementById("se1");
+    const sel2 = document.getElementById("se2");
+    const sel3 = document.getElementById("se3");
+    const sel4 = document.getElementById("se4");
+    const sel5 = document.getElementById("se5");
+
+    const name = localStorage.getItem("name");
+    const comment = localStorage.getItem("comment");
+    const savedText = localStorage.getItem("texts");
+
+    if (localStorage.getItem("sel1")) sel1.value = localStorage.getItem("sel1");
+    if (localStorage.getItem("sel2")) sel2.value = localStorage.getItem("sel2");
+    if (localStorage.getItem("sel3")) sel3.value = localStorage.getItem("sel3");
+    if (localStorage.getItem("sel4")) sel4.value = localStorage.getItem("sel4");
+    if (localStorage.getItem("sel5")) sel5.value = localStorage.getItem("sel5");
+
+    if (name) document.getElementById("name").value = name;
+    if (comment) document.getElementById("comment").value = comment;
+    if (savedText) document.getElementById("texts").innerText = savedText;
+});
+</script>
+
 </body>
 </html>
