@@ -99,7 +99,18 @@
   <!-- Firebase SDK & アプリコード -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      doc,
+      setDoc,
+      onSnapshot,
+      query,
+      orderBy,
+      limit,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD0fZhzU-BFDPXCZ98DrO6XQgAv8t4dJW4",
@@ -118,7 +129,10 @@
     window.SAVE = async function () {
       const name = document.getElementById("name").value.trim();
       const comment = document.getElementById("comment").value.trim();
-      if (!name || !comment) return;
+      if (!name || !comment) {
+        alert("名前とコメントを入力してください");
+        return;
+      }
 
       await addDoc(collection(db, "comments"), {
         name,
@@ -129,7 +143,7 @@
       document.getElementById("comment").value = "";
     };
 
-    // コメント取得＆リアルタイム表示（30件まで）
+    // コメントリアルタイム取得
     function listenComments() {
       const q = query(
         collection(db, "comments"),
@@ -148,18 +162,46 @@
       });
     }
 
-    // ページ読み込み時処理
-    window.addEventListener("DOMContentLoaded", () => {
-      listenComments();
+    // 家族ステータスをFirestoreに保存
+    async function saveStatus(name, value) {
+      await setDoc(doc(db, "status", name), {
+        status: value,
+        updated: serverTimestamp()
+      });
+    }
 
-      ["se1", "se2", "se3", "se4", "se5"].forEach(id => {
-        const el = document.getElementById(id);
-        const saved = localStorage.getItem(id);
-        if (saved) el.value = saved;
+    // ステータスをリアルタイム同期
+    function listenStatusUpdates() {
+      const statusMap = {
+        se1: "あき",
+        se2: "おじ",
+        se3: "そら",
+        se4: "ふう",
+        se5: "はる"
+      };
+
+      Object.entries(statusMap).forEach(([selectId, memberName]) => {
+        const el = document.getElementById(selectId);
+
+        // Firestoreから取得し画面に反映
+        onSnapshot(doc(db, "status", memberName), (docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            el.value = data.status;
+          }
+        });
+
+        // 状態が変わったらFirestoreに保存
         el.addEventListener("change", () => {
-          localStorage.setItem(id, el.value);
+          saveStatus(memberName, el.value);
         });
       });
+    }
+
+    // 初期化
+    window.addEventListener("DOMContentLoaded", () => {
+      listenComments();
+      listenStatusUpdates();
     });
   </script>
 </body>
