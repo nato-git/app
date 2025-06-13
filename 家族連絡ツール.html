@@ -127,26 +127,32 @@ function SAVE() {
     const comment = document.getElementById("comment").value.trim();
     if (!name || !comment) return;
 
-    let logs = JSON.parse(localStorage.getItem("texts")) || [];
+    db.collection("comments").add({
+        name: name,
+        comment: comment,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
 
-    logs.push(`[${name}] ${comment}`);
-
-    // 30件を超えたら古い順から削除
-    while (logs.length > 30) {
-        logs.shift();
-    }
-
-    localStorage.setItem("texts", JSON.stringify(logs));
-    showTexts();
+    document.getElementById("comment").value = "";
 }
-
-function showTexts() {
-    const logs = JSON.parse(localStorage.getItem("texts")) || [];
-    document.getElementById("texts").innerText = logs.join("\n");
+function listenComments() {
+    db.collection("comments")
+      .orderBy("timestamp", "desc")
+      .limit(30)
+      .onSnapshot(snapshot => {
+        const logs = [];
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const text = `[${data.name}] ${data.comment}`;
+            logs.push(text);
+        });
+        document.getElementById("texts").innerText = logs.reverse().join("\n");
+    });
 }
-
 window.addEventListener("DOMContentLoaded", () => {
-    // selectの復元＋リアルタイム保存
+    listenComments();
+
+    // selectの保存は localStorage のままでOK
     ["se1", "se2", "se3", "se4", "se5"].forEach(id => {
         const el = document.getElementById(id);
         const saved = localStorage.getItem(id);
@@ -156,9 +162,8 @@ window.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem(id, el.value);
         });
     });
-
-    showTexts();
 });
+
 </script>
 
 </body>
