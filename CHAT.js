@@ -1,6 +1,4 @@
 function SAVE(){
-    localStorage.setItem="names",value;
-    localStorage.setItem="comments",value;
     const sel1 = document.getElementByld("se1");
     const sel2 = document.getElementByld("se2");
     const sel3 = document.getElementByld("se3");
@@ -13,9 +11,11 @@ function SAVE(){
     const key5 = selected5;
     var names = localStorage.getItem("name")
     var comments = localStorage.getItem("comment");
+    localStorage.setItem("names",value);
+    localStorage.setItem("comments",value);
     var texts ="[" + names + "]" + comments + "/n";
     texts.innerText = texts;
-    localStorage.setItem="texts",value;
+    localStorage.setItem("texts",value);
     selectElement.addEventListener("change",() => {
         localStorage.setItem(key1,sel1.value);
         localStorage.setItem(key2,sel2.value);
