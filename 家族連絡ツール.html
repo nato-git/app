@@ -10,11 +10,17 @@ body {
     font-size:30px;
     font-family:serif;
 }
+.texts {
+    border:#000000 2px double
+}
+select {
+    height:32px;
+}
 </style>
 <body>
 <script src="CHAT.js"></script>
 <h1 style="margin-bottom":25px;>家族連絡ツール</h1>
-<p>あき</p>
+<p>あき
 <select name="example">
 <option>起床中</option>
 <option>就寝中</option>
@@ -22,7 +28,8 @@ body {
 <option>入浴中</option>
 <option>外出中</option>
 </select>
-<p>おじ</p>
+</p>
+<p>おじ
 <select name="example">
 <option>起床中</option>
 <option>就寝中</option>
@@ -30,7 +37,8 @@ body {
 <option>入浴中</option>
 <option>外出中</option>
 </select>
-<p>そら</p>
+</p>
+<p>そら
 <select name="example">
 <option>起床中</option>
 <option>就寝中</option>
@@ -38,7 +46,8 @@ body {
 <option>入浴中</option>
 <option>外出中</option>
 </select>
-<p>ふう</p>
+</p>
+<p>ふう
 <select name="example">
 <option>起床中</option>
 <option>就寝中</option>
@@ -46,7 +55,8 @@ body {
 <option>入浴中</option>
 <option>外出中</option>
 </select>
-<p>はる</p>
+</p>
+<p>はる
 <select name="example">
 <option>起床中</option>
 <option>就寝中</option>
@@ -54,14 +64,11 @@ body {
 <option>入浴中</option>
 <option>外出中</option>
 </select>
+</p>
 <p style="border-bottom":solid 2px #9eedff>連絡欄</p>
-<form action="renraku.html" method="post">
-<input type="text" id="name">
-<textarea col="10" rows="1">名前を入力</textarea>
-<input type="text" id="comment">
-<textarea col="30" rows="5"></textarea>
-<input type="submit" value="送信">
-</form>
+<textarea col="10" rows="1"　id="name">名前を入力</textarea><br>
+<textarea col="30" rows="5" id="comment"></textarea><br>
+<button onclick="SAVE()" loop>送信</button><br>
 <p id="texts"></p>
 </body>
 </html>
