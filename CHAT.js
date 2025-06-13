@@ -8,7 +8,7 @@ function SAVE(){
     localStorage.setItem="se5",value;
     var names = localStorage.getItem("name")
     var comments = localStorage.getItem("comment");
-    var texts ="[" + names + "]" + comments
+    var texts ="[" + names + "]" + comments + "/n";
     var se1 = localStorage.getItem("se1");
     var se2 = localStorage.getItem("se2");
     var se3 = localStorage.getItem("se3");
