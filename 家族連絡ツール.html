@@ -7,19 +7,34 @@
 </head>
 <style>
 body {
-    font-size:30px;
+    font-size:40px;
     font-family:serif;
 }
 .texts {
     border:#000000 2px double
 }
 select {
-    height:32px;
+    height:42px;
+    font-size:40px;
+}
+textarea {
+    width:400px;
+    height:120px;
+}
+button {
+    width:45px;
+    height:35px;
+}
+h1 {
+    magin-bottom:25px;
+}
+.a {
+    border-bottom:solid 1px #9eedff;
 }
 </style>
 <body>
 <script src="CHAT.js"></script>
-<h1 style="margin-bottom":25px;>家族連絡ツール</h1>
+<h1>家族連絡ツール</h1>
 <p>あき
 <select name="example" id="se1">
 <option>起床中</option>
@@ -65,7 +80,7 @@ select {
 <option>外出中</option>
 </select>
 </p>
-<p style="border-bottom":solid 2px #9eedff>連絡欄</p>
+<p id="a">連絡欄</p>
 <textarea col="10" rows="1"　id="name">名前を入力</textarea><br>
 <textarea col="30" rows="5" id="comment"></textarea><br>
 <button onclick="SAVE()" loop>送信</button><br>
