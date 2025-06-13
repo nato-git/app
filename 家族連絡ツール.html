@@ -1,170 +1,166 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyD0fZhzU-BFDPXCZ98DrO6XQgAv8t4dJW4",
-    authDomain: "familyline-410f4.firebaseapp.com",
-    projectId: "familyline-410f4",
-    storageBucket: "familyline-410f4.firebasestorage.app",
-    messagingSenderId: "384009476135",
-    appId: "1:384009476135:web:259bb476da359e0e9dd602",
-    measurementId: "G-K56DTHK9XB"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-<meta charset="utf-8">
-<title>家族連絡ツール</title>
-<style>
-body {
-    font-size: 40px;
-    font-family: serif;
-}
-.texts {
-    border: #000000 2px double;
-    white-space: pre-line;
-    padding: 10px;
-    background: #f0f0f0;
-}
-select {
-    height: 42px;
-    font-size: 40px;
-}
-input {
-    font-size:40px;
-    height:50px;
-    width:320px;
-}
-textarea {
-    width: 400px;
-    height: 120px;
-    font-size:40px;
-}
-button {
-    width: 90px;
-    height: 45px;
-    font-size: 24px;
-}
-h1 {
-    margin-bottom: 25px;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>家族連絡ツール</title>
+  <style>
+    body {
+      font-size: 40px;
+      font-family: serif;
+    }
+    .texts {
+      border: #000 2px double;
+      white-space: pre-line;
+      padding: 10px;
+      background: #f0f0f0;
+      width: 90%;
+      max-width: 600px;
+    }
+    select {
+      height: 42px;
+      font-size: 32px;
+    }
+    input {
+      font-size: 32px;
+      height: 50px;
+      width: 300px;
+    }
+    textarea {
+      width: 400px;
+      height: 120px;
+      font-size: 32px;
+    }
+    button {
+      width: 100px;
+      height: 50px;
+      font-size: 28px;
+    }
+    h1 {
+      margin-bottom: 25px;
+    }
+  </style>
 </head>
 <body>
+  <h1>家族連絡ツール</h1>
 
-<h1>家族連絡ツール</h1>
+  <p>あき
+    <select id="se1">
+      <option>起床中</option>
+      <option>就寝中</option>
+      <option>食事中</option>
+      <option>入浴中</option>
+      <option>外出中</option>
+    </select>
+  </p>
+  <p>おじ
+    <select id="se2">
+      <option>起床中</option>
+      <option>就寝中</option>
+      <option>食事中</option>
+      <option>入浴中</option>
+      <option>外出中</option>
+    </select>
+  </p>
+  <p>そら
+    <select id="se3">
+      <option>起床中</option>
+      <option>就寝中</option>
+      <option>食事中</option>
+      <option>入浴中</option>
+      <option>外出中</option>
+    </select>
+  </p>
+  <p>ふう
+    <select id="se4">
+      <option>起床中</option>
+      <option>就寝中</option>
+      <option>食事中</option>
+      <option>入浴中</option>
+      <option>外出中</option>
+    </select>
+  </p>
+  <p>はる
+    <select id="se5">
+      <option>起床中</option>
+      <option>就寝中</option>
+      <option>食事中</option>
+      <option>入浴中</option>
+      <option>外出中</option>
+    </select>
+  </p>
 
-<p>あき
-<select name="example" id="se1">
-<option>起床中</option>
-<option>就寝中</option>
-<option>食事中</option>
-<option>入浴中</option>
-<option>外出中</option>
-</select>
-</p>
+  <p>連絡欄</p>
+  <input type="text" id="name" placeholder="名前:"><br>
+  <textarea id="comment" placeholder="コメントを入力"></textarea><br>
+  <button onclick="SAVE()">送信</button><br><br>
 
-<p>おじ
-<select name="example" id="se2">
-<option>起床中</option>
-<option>就寝中</option>
-<option>食事中</option>
-<option>入浴中</option>
-<option>外出中</option>
-</select>
-</p>
+  <div id="texts" class="texts"></div>
 
-<p>そら
-<select name="example" id="se3">
-<option>起床中</option>
-<option>就寝中</option>
-<option>食事中</option>
-<option>入浴中</option>
-<option>外出中</option>
-</select>
-</p>
+  <!-- Firebase SDK & アプリコード -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
-<p>ふう
-<select name="example" id="se4">
-<option>起床中</option>
-<option>就寝中</option>
-<option>食事中</option>
-<option>入浴中</option>
-<option>外出中</option>
-</select>
-</p>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD0fZhzU-BFDPXCZ98DrO6XQgAv8t4dJW4",
+      authDomain: "familyline-410f4.firebaseapp.com",
+      projectId: "familyline-410f4",
+      storageBucket: "familyline-410f4.appspot.com",
+      messagingSenderId: "384009476135",
+      appId: "1:384009476135:web:259bb476da359e0e9dd602",
+      measurementId: "G-K56DTHK9XB"
+    };
 
-<p>はる
-<select name="example" id="se5">
-<option>起床中</option>
-<option>就寝中</option>
-<option>食事中</option>
-<option>入浴中</option>
-<option>外出中</option>
-</select>
-</p>
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-<p>連絡欄</p>
-<input type="text" id="name" placeholder="名前:"><br>
-<textarea cols="30" rows="5" id="comment"></textarea><br>
-<button onclick="SAVE()">送信</button><br>
-<p id="texts" class="texts"></p>
+    // コメント保存
+    window.SAVE = async function () {
+      const name = document.getElementById("name").value.trim();
+      const comment = document.getElementById("comment").value.trim();
+      if (!name || !comment) return;
 
-<script>
-function SAVE() {
-    const name = document.getElementById("name").value.trim();
-    const comment = document.getElementById("comment").value.trim();
-    if (!name || !comment) return;
+      await addDoc(collection(db, "comments"), {
+        name,
+        comment,
+        timestamp: serverTimestamp()
+      });
 
-    db.collection("comments").add({
-        name: name,
-        comment: comment,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    });
+      document.getElementById("comment").value = "";
+    };
 
-    document.getElementById("comment").value = "";
-}
-function listenComments() {
-    db.collection("comments")
-      .orderBy("timestamp", "desc")
-      .limit(30)
-      .onSnapshot(snapshot => {
+    // コメント取得＆リアルタイム表示（30件まで）
+    function listenComments() {
+      const q = query(
+        collection(db, "comments"),
+        orderBy("timestamp", "desc"),
+        limit(30)
+      );
+
+      onSnapshot(q, snapshot => {
         const logs = [];
         snapshot.forEach(doc => {
-            const data = doc.data();
-            const text = `[${data.name}] ${data.comment}`;
-            logs.push(text);
+          const data = doc.data();
+          const time = data.timestamp?.toDate().toLocaleString() ?? "時刻不明";
+          logs.push(`[${data.name}] ${data.comment} (${time})`);
         });
         document.getElementById("texts").innerText = logs.reverse().join("\n");
-    });
-}
-window.addEventListener("DOMContentLoaded", () => {
-    listenComments();
+      });
+    }
 
-    // selectの保存は localStorage のままでOK
-    ["se1", "se2", "se3", "se4", "se5"].forEach(id => {
+    // ページ読み込み時処理
+    window.addEventListener("DOMContentLoaded", () => {
+      listenComments();
+
+      ["se1", "se2", "se3", "se4", "se5"].forEach(id => {
         const el = document.getElementById(id);
         const saved = localStorage.getItem(id);
         if (saved) el.value = saved;
-
         el.addEventListener("change", () => {
-            localStorage.setItem(id, el.value);
+          localStorage.setItem(id, el.value);
         });
+      });
     });
-});
-
-</script>
-
+  </script>
 </body>
 </html>
