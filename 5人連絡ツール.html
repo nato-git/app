@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>家族連絡ツール</title>
+  <title>5人連絡ツール</title>
   <style>
     body {
       font-size: 40px;
@@ -41,51 +41,61 @@
   </style>
 </head>
 <body>
-  <h1>家族連絡ツール</h1>
+  <h1>5人連絡ツール</h1>
 
-  <p>あき
+  <p>あかし
     <select id="se1">
       <option>起床中</option>
       <option>就寝中</option>
       <option>食事中</option>
       <option>入浴中</option>
       <option>外出中</option>
+      <option>ゲーム中</option>
+      <option>勉強中</option>
     </select>
   </p>
-  <p>おじ
+  <p>てらだ
     <select id="se2">
       <option>起床中</option>
       <option>就寝中</option>
       <option>食事中</option>
       <option>入浴中</option>
       <option>外出中</option>
+      <option>ゲーム中</option>
+      <option>勉強中</option>
     </select>
   </p>
-  <p>そら
+  <p>なと
     <select id="se3">
       <option>起床中</option>
       <option>就寝中</option>
       <option>食事中</option>
       <option>入浴中</option>
       <option>外出中</option>
+      <option>ゲーム中</option>
+      <option>勉強中</option>
     </select>
   </p>
-  <p>ふう
+  <p>もい
     <select id="se4">
       <option>起床中</option>
       <option>就寝中</option>
       <option>食事中</option>
       <option>入浴中</option>
       <option>外出中</option>
+      <option>ゲーム中</option>
+      <option>勉強中</option>
     </select>
   </p>
-  <p>はる
+  <p>るいぼ
     <select id="se5">
       <option>起床中</option>
       <option>就寝中</option>
       <option>食事中</option>
       <option>入浴中</option>
       <option>外出中</option>
+      <option>ゲーム中</option>
+      <option>勉強中</option>
     </select>
   </p>
 
@@ -173,11 +183,11 @@
     // ステータスをリアルタイム同期
     function listenStatusUpdates() {
       const statusMap = {
-        se1: "あき",
-        se2: "おじ",
-        se3: "そら",
-        se4: "ふう",
-        se5: "はる"
+        se1: "あかし",
+        se2: "てらだ",
+        se3: "なと",
+        se4: "もい",
+        se5: "るいぼ"
       };
 
       Object.entries(statusMap).forEach(([selectId, memberName]) => {
